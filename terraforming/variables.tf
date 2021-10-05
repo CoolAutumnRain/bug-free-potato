@@ -23,7 +23,7 @@ variable "flavor_name" {
 
 variable "key_name" {
   type    = string
-  default = "Adi"
+  default = "default"
 }
 
 variable "network_name" {
@@ -49,6 +49,11 @@ variable "dns_ip" {
 variable "port_ip" {
   type    = string
   default = "192.168.199.10"
+}
+
+variable "port_ip2" {
+  type    = string
+  default = "192.168.199.11"
 }
 
 variable "external_network" {

@@ -67,6 +67,19 @@ resource "openstack_networking_port_v2" "port_1" {
   }
 }
 
+#Creates another port
+resource "openstack_networking_port_v2" "port_2" {
+  name                = "port_2"
+  network_id          = "${openstack_networking_network_v2.network_1.id}"
+  admin_state_up      = "true"
+  security_group_ids  = ["${openstack_compute_secgroup_v2.secgroup_1.id}"]
+
+  fixed_ip {
+    subnet_id         = "${openstack_networking_subnet_v2.subnet_1.id}"
+    ip_address        = var.port_ip2
+  }
+}
+
 # Connect the subnet to the router
 resource "openstack_networking_router_interface_v2" "router_interface_1" {
   router_id           = "${openstack_networking_router_v2.router.id}"
@@ -76,6 +89,11 @@ resource "openstack_networking_router_interface_v2" "router_interface_1" {
 # Allocate Floating IP
 resource "openstack_networking_floatingip_v2" "floatip_1" {
   pool                = var.fip_pool
+}
+
+# Allocate floating ip 2
+resource "openstack_networking_floatingip_v2" "floatip_2" {
+ pool                 = var.fip_pool
 }
 
 ## INSTANCE
@@ -99,15 +117,51 @@ resource "openstack_networking_floatingip_associate_v2" "fip_1" {
   port_id             = "${openstack_networking_port_v2.port_1.id}"
 }
 
+
+# Associate Floating ip 2
+resource "openstack_networking_floatingip_associate_v2" "fip_2" {
+  floating_ip         = "${openstack_networking_floatingip_v2.floatip_2.address}"
+  port_id             = "${openstack_networking_port_v2.port_2.id}"
+}
+
+
+## INSTANCE
+# Creates another instance
 resource "openstack_compute_instance_v2" "instance_2" {
   name                = var.instance_name2
   image_name          = var.image_name
   flavor_name         = var.flavor_name
   key_pair            = var.key_name
-  security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}"]
+  security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_jitsi
 
   network {
-    port              = "${openstack_networking_port_v2.port_1.id}"
+    port              = "${openstack_networking_port_v2.port_2.id}"
+  }
+  provisioner "remote-exec" {
+    inline = [
+  "sudo touch here",
+  "sudo apt update -y",
+  "sudo apt upgrade -y",
+  "sudo apt install apt-transport-https -y",
+  "sudo apt-add-repository universe -y",
+  "sudo apt install openjdk-11-jdk -y",
+  "sudo apt update -y",
+  "sudo apt clean -y",
+  "sudo echo deb http://packages.prosody.im/debian $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list",
+  "sudo wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add -",
+  "sudo curl https://download.jitsi.org/jitsi-key.gpg.key | sudo sh -c 'gpg --dearmor > /usr/share/keyrings/jitsi-keyring.gpg'",
+  "sudo echo 'deb [signed-by=/usr/share/keyrings/jitsi-keyring.gpg] https://download.jitsi.org stable/' | sudo tee /etc/apt/sources.list.d/jitsi-stable.list > /dev/null",
+  "sudo apt update -y",
+  "sudo apt install jitsi-meet -y",
+    ]
+  }
+
+  connection {
+    host      = "${openstack_networking_floatingip_v2.floatip_2.address}"
+    type      = "ssh"
+    user      = "jitsiman"
+    password  = ""
+    private_key= "${file("~/id_rsa")}"
   }
 }
