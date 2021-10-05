@@ -6,6 +6,11 @@ variable "instance_name" {
   default = "tf-web"
 }
 
+variable "instance_name2" {
+  type    = string
+  default = "jitsihost"
+}
+
 variable "image_name" {
   type    = string
   default = "ubuntu-20.04-server-latest"
@@ -89,3 +94,13 @@ packages:
 EOF
 }
 
+variable "cloudconfig_jitsi" {
+  type    = string
+  default = <<EOF
+#cloud-config
+system_info:
+  default_user:
+    name: jitsiman
+packages:
+EOF
+}

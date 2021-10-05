@@ -98,3 +98,16 @@ resource "openstack_networking_floatingip_associate_v2" "fip_1" {
   floating_ip         = "${openstack_networking_floatingip_v2.floatip_1.address}"
   port_id             = "${openstack_networking_port_v2.port_1.id}"
 }
+
+resource "openstack_compute_instance_v2" "instance_2" {
+  name                = var.instance_name2
+  image_name          = var.image_name
+  flavor_name         = var.flavor_name
+  key_pair            = var.key_name
+  security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}"]
+  user_data           = var.cloudconfig_jitsi
+
+  network {
+    port              = "${openstack_networking_port_v2.port_1.id}"
+  }
+}
