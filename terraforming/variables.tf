@@ -6,6 +6,16 @@ variable "instance_name" {
   default = "tf-web"
 }
 
+variable "ssh_group" {
+  type    = string
+  default = "TerraformSSH"
+}
+
+variable "web_group" {
+  type    = string
+  default = "TerraformWebGroup"
+}
+
 variable "image_name" {
   type    = string
   default = "ubuntu-20.04-server-latest"
@@ -18,7 +28,7 @@ variable "flavor_name" {
 
 variable "key_name" {
   type    = string
-  default = "Adi"
+  default = "Rein"
 }
 
 variable "network_name" {

@@ -39,7 +39,7 @@ resource "openstack_compute_secgroup_v2" "secgroup_1" {
 
 resource "openstack_compute_secgroup_v2" "secgroup_2" {
   name                = "TerraformSSH"
-  description         = "Terraform SH for Port 22"
+  description         = "Terraform SSH for Port 22"
 
   rule {
     from_port         = 22
@@ -87,6 +87,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
   key_pair            = var.key_name
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_web
+  metadata            = {sw_webserver_nginx_http_port = "80", sw_webserver_nginx_https_port = "443", sw_webserver_nginx_version = "1.20.0"}
 
   network {
     port              = "${openstack_networking_port_v2.port_1.id}"
