@@ -1,9 +1,24 @@
 ## VARIABLES
 # Make changes here
 
-variable "instance_name" {
+variable "webserver_instance" {
   type    = string
   default = "tf-web"
+}
+
+variable "ansible_instance" {
+  type    = string
+  default = "tf-ansible"
+}
+
+variable "database_instance" {
+  type    = string
+  default = "tf-db"
+}
+
+variable "jitsi_instance" {
+  type    = string
+  default = "tf-jitsi"
 }
 
 variable "ssh_group" {
@@ -28,7 +43,7 @@ variable "flavor_name" {
 
 variable "key_name" {
   type    = string
-  default = "Rein"
+  default = "caelum"
 }
 
 variable "network_name" {
@@ -36,14 +51,44 @@ variable "network_name" {
   default = "network1"
 }
 
-variable "subnet_name" {
+variable "subnet_DMZ" {
   type    = string
-  default = "tf_subnet_1"
+  default = "dmz_subnet"
 }
 
-variable "subnet_cidr" {
+variable "subnet_IT" {
   type    = string
-  default = "192.168.199.0/24"
+  default = "IT_subnet"
+}
+
+variable "subnet_RND" {
+  type    = string
+  default = "RND_subnet"
+}
+
+variable "subnet_HRFIN" {
+  type    = string
+  default = "HRFIN_subnet"
+}
+
+variable "IT_cidr" {
+  type    = string
+  default = "192.168.1.0/24"
+}
+
+variable "RND_cidr" {
+  type    = string
+  default = "192.168.3.0/24"
+}
+
+variable "DMZ_cidr" {
+  type    = string
+  default = "192.168.2.0/24"
+}
+
+variable "HRFIN_cidr" {
+  type    = string
+  default = "192.168.5.0/24"
 }
 
 variable "dns_ip" {
@@ -51,9 +96,9 @@ variable "dns_ip" {
   default = [ "8.8.8.8", "8.8.4.4" ]
 }
 
-variable "port_ip" {
+variable "ANS_ip" {
   type    = string
-  default = "192.168.199.10"
+  default = "192.168.1.5"
 }
 
 variable "external_network" {
@@ -96,6 +141,18 @@ system_info:
     name: webserver
 packages:
  - nginx
+EOF
+}
+
+variable "cloudconfig_ansible" {
+  type    = string
+  default = <<EOF
+#cloud-config
+system_info:
+  default_user:
+    name: ansible
+packages:
+ - ansible
 EOF
 }
 
