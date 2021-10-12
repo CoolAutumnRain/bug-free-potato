@@ -73,7 +73,6 @@ resource "openstack_compute_secgroup_v2" "secgroup_5" {
   }
 }
 
-
 resource "openstack_compute_secgroup_v2" "secgroup_6" {
   name                = "winADSG"
   description         = "Opens ports as requiered for winAD"
