@@ -23,7 +23,7 @@ variable "flavor_name" {
 
 variable "key_name" {
   type    = string
-  default = "default"
+  default = "caelum"
 }
 
 variable "network_name" {

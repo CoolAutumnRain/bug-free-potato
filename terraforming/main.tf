@@ -135,27 +135,27 @@ resource "openstack_compute_instance_v2" "instance_2" {
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_jitsi
 
-  network {
-    port              = "${openstack_networking_port_v2.port_2.id}"
-  }
-  provisioner "remote-exec" {
-    inline = [
-  "sudo touch here",
-  "sudo apt update -y",
-  "sudo apt upgrade -y",
-  "sudo apt install apt-transport-https -y",
-  "sudo apt-add-repository universe -y",
-  "sudo apt install openjdk-11-jdk -y",
-  "sudo apt update -y",
-  "sudo apt clean -y",
-  "sudo echo deb http://packages.prosody.im/debian $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list",
-  "sudo wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add -",
-  "sudo curl https://download.jitsi.org/jitsi-key.gpg.key | sudo sh -c 'gpg --dearmor > /usr/share/keyrings/jitsi-keyring.gpg'",
-  "sudo echo 'deb [signed-by=/usr/share/keyrings/jitsi-keyring.gpg] https://download.jitsi.org stable/' | sudo tee /etc/apt/sources.list.d/jitsi-stable.list > /dev/null",
-  "sudo apt update -y",
-  "sudo apt install jitsi-meet -y",
-    ]
-  }
+#  network {
+#    port              = "${openstack_networking_port_v2.port_2.id}"
+#  }
+#  provisioner "remote-exec" {
+#    inline = [
+#  "sudo touch here",
+#  "sudo apt update -y",
+#  "sudo apt upgrade -y",
+#  "sudo apt install apt-transport-https -y",
+#  "sudo apt-add-repository universe -y",
+#  "sudo apt install openjdk-11-jdk -y",
+#  "sudo apt update -y",
+#  "sudo apt clean -y",
+#  "sudo echo deb http://packages.prosody.im/debian $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list",
+#  "sudo wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add -",
+#  "sudo curl https://download.jitsi.org/jitsi-key.gpg.key | sudo sh -c 'gpg --dearmor > /usr/share/keyrings/jitsi-keyring.gpg'",
+#  "sudo echo 'deb [signed-by=/usr/share/keyrings/jitsi-keyring.gpg] https://download.jitsi.org stable/' | sudo tee /etc/apt/sources.list.d/jitsi-stable.list > /dev/null",
+#  "sudo apt update -y",
+#  "sudo apt install jitsi-meet -y",
+#    ]
+#  }
 
   connection {
     host      = "${openstack_networking_floatingip_v2.floatip_2.address}"
@@ -164,4 +164,18 @@ resource "openstack_compute_instance_v2" "instance_2" {
     password  = ""
     private_key= "${file("~/id_rsa")}"
   }
+}
+
+resource "openstack_blockstorage_volume_v3" "volume_1" {
+  availability_zone = "sto1"
+  name        = "volume_1"
+  description = "Cloudstorage"
+  size        = 10
+}
+
+resource "openstack_blockstorage_volume_v3" "volume_1_backup" {
+  availability_zone = "sto2"
+  name        = "volume_1_backup"
+  description = "Cloudstorage_backup"
+  size        = 10
 }
