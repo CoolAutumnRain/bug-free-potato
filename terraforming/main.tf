@@ -25,6 +25,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_web
   metadata            = {sw_webserver_nginx_http_port = "80", sw_webserver_nginx_https_port = "443", sw_webserver_nginx_version = "1.20.0"}
+  availability_zone   = "sto3"
 
   network {
     port              = "${openstack_networking_port_v2.port_1.id}"
@@ -39,6 +40,7 @@ resource "openstack_compute_instance_v2" "instance_2" {
   key_pair            = var.key_name
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_3.name}"]
   user_data           = var.cloudconfig_ansible
+  availability_zone   = "sto1"
 
   network {
     port              = "${openstack_networking_port_v2.port_2.id}"
@@ -53,6 +55,7 @@ resource "openstack_compute_instance_v2" "instance_3" {
   key_pair            = var.key_name
   security_groups     = ["${openstack_compute_secgroup_v2.secgroup_4.name}"]
   user_data           = var.cloudconfig_database
+  availability_zone   = "sto1"
 
   network {
     port              = "${openstack_networking_port_v2.port_3.id}"
@@ -67,6 +70,7 @@ resource "openstack_compute_instance_v2" "instance_4" {
   key_pair            = var.key_name
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_2.name}","${openstack_compute_secgroup_v2.secgroup_5.name}"]
   user_data           = var.cloudconfig_web
+  availability_zone   = "sto3"
 
   network {
     port              = "${openstack_networking_port_v2.port_4.id}"
@@ -79,13 +83,28 @@ resource "openstack_compute_instance_v2" "instance_5" {
   image_name          = var.image_name
   flavor_name         = var.flavor_name
   key_pair            = var.key_name
-  security_groups     = ["default"]
-
+  security_groups     = ["${openstack_compute_secgroup_v2.secgroup_2.name}"]
+  availability_zone   = "sto1"
   network {
     port              = "${openstack_networking_port_v2.port_5.id}"
   }
+
 }
- 
+
+resource "openstack_compute_instance_v2" "instance_6" {
+  name                = var.DC_instance
+  image_name          = var.image_name_dc
+  flavor_name         = var.flavor_name_dc
+  key_pair            = var.key_name
+  security_groups     = ["${openstack_compute_secgroup_v2.secgroup_6.name}"]
+  availability_zone   = "sto1"
+
+  network {
+    port              = "${openstack_networking_port_v2.port_6.id}"
+  }
+
+}
+
 
 # Associate Floating IP
 
