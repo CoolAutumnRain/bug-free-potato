@@ -101,6 +101,21 @@ variable "ANS_ip" {
   default = "192.168.1.5"
 }
 
+variable "WEB_ip" {
+  type    = string
+  default = "192.168.2.5"
+}
+
+variable "WEB_SG_IP" {
+  type    = string
+  default = "192.168.2.5/32"
+}
+
+variable "ANS_SG_IP" {
+  type    = string
+  default = "192.168.1.5/32"
+}
+
 variable "external_network" {
  default = "elx-public1"
 }
@@ -156,3 +171,14 @@ packages:
 EOF
 }
 
+variable "cloudconfig_database" {
+  type    = string
+  default = <<EOF
+#cloud-config
+system_info:
+  default_user:
+    name: database
+packages:
+ - mysql
+EOF
+}
