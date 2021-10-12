@@ -98,11 +98,12 @@ resource "openstack_networking_floatingip_v2" "floatip_2" {
 
 ## INSTANCE
 # Create an instance
-resource "openstack_compute_instance_v2" "instance_1" {
-  name                = var.instance_name
+resource "openstack_compute_instance_v2" "cloudstorageserver_1" {
+  name                = "cloudstorageserver_1"
   image_name          = var.image_name
   flavor_name         = var.flavor_name
   key_pair            = var.key_name
+  availability_zone   = "sto1"
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_web
 
@@ -124,7 +125,6 @@ resource "openstack_networking_floatingip_associate_v2" "fip_2" {
   port_id             = "${openstack_networking_port_v2.port_2.id}"
 }
 
-
 ## INSTANCE
 # Creates another instance
 resource "openstack_compute_instance_v2" "instance_2" {
@@ -135,9 +135,9 @@ resource "openstack_compute_instance_v2" "instance_2" {
   security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_jitsi
 
-#  network {
-#    port              = "${openstack_networking_port_v2.port_2.id}"
-#  }
+  network {
+    port              = "${openstack_networking_port_v2.port_2.id}"
+  }
 #  provisioner "remote-exec" {
 #    inline = [
 #  "sudo touch here",
@@ -174,8 +174,18 @@ resource "openstack_blockstorage_volume_v3" "volume_1" {
 }
 
 resource "openstack_blockstorage_volume_v3" "volume_1_backup" {
-  availability_zone = "sto2"
+  availability_zone = "sto1"
   name        = "volume_1_backup"
   description = "Cloudstorage_backup"
   size        = 10
+}
+
+resource "openstack_compute_volume_attach_v2" "attach_1" {
+  instance_id = "${openstack_compute_instance_v2.cloudstorageserver_1.id}"
+  volume_id   = "${openstack_blockstorage_volume_v3.volume_1.id}"
+}
+
+resource "openstack_compute_volume_attach_v2" "attach_2" {
+  instance_id = "${openstack_compute_instance_v2.cloudstorageserver_1.id}"
+  volume_id   = "${openstack_blockstorage_volume_v3.volume_1_backup.id}"
 }

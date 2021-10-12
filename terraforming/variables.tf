@@ -93,9 +93,9 @@ variable "cloudconfig_web" {
 #cloud-config
 system_info:
   default_user:
-    name: webserver
+    name: cloudman
 packages:
- - nginx
+ - openstack swift
 EOF
 }
 
