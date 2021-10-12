@@ -72,3 +72,122 @@ resource "openstack_compute_secgroup_v2" "secgroup_5" {
     cidr              = "0.0.0.0/0"
   }
 }
+
+
+resource "openstack_compute_secgroup_v2" "secgroup_6" {
+  name                = "winADSG"
+  description         = "Opens ports as requiered for winAD"
+
+  rule {
+    from_port         = 123
+    to_port           = 123
+    ip_protocol       = "udp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 135
+    to_port           = 135
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 464
+    to_port           = 464
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 464
+    to_port           = 464
+    ip_protocol       = "udp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 49152
+    to_port           = 65535
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 389
+    to_port           = 389
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 389
+    to_port           = 389
+    ip_protocol       = "udp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 636
+    to_port           = 636
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 3268
+    to_port           = 3269
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 53
+    to_port           = 53
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 53
+    to_port           = 53
+    ip_protocol       = "udp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 49152
+    to_port           = 65535
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 88
+    to_port           = 88
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 88
+    to_port           = 88
+    ip_protocol       = "udp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 445
+    to_port           = 445
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port         = 49152
+    to_port           = 65535
+    ip_protocol       = "tcp"
+    cidr              = "0.0.0.0/0"
+  }
+
+}

@@ -65,6 +65,29 @@ resource "openstack_networking_port_v2" "port_4" {
   }
 }
 
+resource "openstack_networking_port_v2" "port_5" {
+  name                = "port_5"
+  network_id          = "${openstack_networking_network_v2.network_2.id}"
+  admin_state_up      = "true"
+  security_group_ids  = ["${openstack_compute_secgroup_v2.secgroup_1.id}"]
+
+  fixed_ip {
+    subnet_id         = "${openstack_networking_subnet_v2.subnet_1.id}"
+    #id_address       =
+  }
+}
+
+resource "openstack_networking_port_v2" "port_6" {
+  name                = "port_6"
+  network_id          = "${openstack_networking_network_v2.network_2.id}"
+  admin_state_up      = "true"
+  security_group_ids  = ["${openstack_compute_secgroup_v2.secgroup_6.id}"]
+
+  fixed_ip {
+    subnet_id         = "${openstack_networking_subnet_v2.subnet_1.id}"
+    #id_address       =
+  }
+}
 
 # Create subnet
 resource "openstack_networking_subnet_v2" "subnet_1" {

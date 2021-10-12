@@ -11,6 +11,11 @@ variable "ansible_instance" {
   default = "tf-ansible"
 }
 
+variable "DC_instance" {
+  type    = string
+  default = "tf-dc"
+}
+
 variable "database_instance" {
   type    = string
   default = "tf-db"
@@ -21,14 +26,9 @@ variable "jitsi_instance" {
   default = "tf-jitsi"
 }
 
-variable "ssh_group" {
+variable "backup_instance" {
   type    = string
-  default = "TerraformSSH"
-}
-
-variable "web_group" {
-  type    = string
-  default = "TerraformWebGroup"
+  default = "tf-backup"
 }
 
 variable "image_name" {
@@ -36,9 +36,19 @@ variable "image_name" {
   default = "ubuntu-20.04-server-latest"
 }
 
+variable "image_name_dc" {
+  type    = string
+  default = "windows-server-2019-desktop-latest"
+}
+
 variable "flavor_name" {
   type    = string
   default = "v1-mini-1"
+}
+
+variable "flavor_name_dc" {
+  type    = string
+  default = "v1-standard-4"
 }
 
 variable "key_name" {
