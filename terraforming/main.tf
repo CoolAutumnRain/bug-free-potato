@@ -74,7 +74,18 @@ resource "openstack_compute_instance_v2" "instance_4" {
 
 }
 
+resource "openstack_compute_instance_v2" "instance_5" {
+  name                = var.backup_instance
+  image_name          = var.image_name
+  flavor_name         = var.flavor_name
+  key_pair            = var.key_name
+  security_groups     = ["default"]
 
+  network {
+    port              = "${openstack_networking_port_v2.port_5.id}"
+  }
+}
+ 
 
 # Associate Floating IP
 

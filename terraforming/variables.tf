@@ -21,6 +21,11 @@ variable "jitsi_instance" {
   default = "tf-jitsi"
 }
 
+variable "backup_instance" {
+  type    = string
+  default = "tf-backup"
+}
+
 variable "ssh_group" {
   type    = string
   default = "TerraformSSH"
