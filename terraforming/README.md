@@ -39,6 +39,11 @@ To create all resources:
 terraform apply
 ```
 
+If security groups aren't properly configured run apply again:
+```shell
+terraform apply
+```
+
 ## Destroy
 
 To destroy all resources:
