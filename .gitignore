@@ -1,3 +1,6 @@
-nackademin-abdulahovic-openrc.sh
-terraforming/.terraform.lock.hcl
-terraforming/terraform.*
+*openrc.sh
+./terraforming/terraform.tfstate*
+./terraforming/.terraform*
+terraforming/terraform.tfstate*
+terraforming/.terraform*
+terraform.tfstate*

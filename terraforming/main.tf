@@ -105,6 +105,7 @@ resource "openstack_compute_instance_v2" "instance_6" {
 
 }
 
+
 # Associate Floating IP
 
 resource "openstack_networking_floatingip_associate_v2" "fip_1" {
