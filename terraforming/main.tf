@@ -22,7 +22,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
   image_name          = var.image_name
   flavor_name         = var.flavor_name
   key_pair            = var.key_name
-  security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
+  security_groups     = ["${openstack_compute_secgroup_v2.secgroup_1.name}","${openstack_compute_secgroup_v2.secgroup_2.name}"]
   user_data           = var.cloudconfig_web
   metadata            = {sw_webserver_nginx_http_port = "80", sw_webserver_nginx_https_port = "443", sw_webserver_nginx_version = "1.20.0"}
   availability_zone   = "sto3"
@@ -38,7 +38,7 @@ resource "openstack_compute_instance_v2" "instance_2" {
   image_name          = var.image_name
   flavor_name         = var.flavor_name
   key_pair            = var.key_name
-  security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_3.name}"]
+  security_groups     = ["${openstack_compute_secgroup_v2.secgroup_3.name}"]
   user_data           = var.cloudconfig_ansible
   availability_zone   = "sto1"
 
@@ -68,7 +68,7 @@ resource "openstack_compute_instance_v2" "instance_4" {
   image_name          = var.image_name
   flavor_name         = var.flavor_name
   key_pair            = var.key_name
-  security_groups     = ["default","${openstack_compute_secgroup_v2.secgroup_2.name}","${openstack_compute_secgroup_v2.secgroup_5.name}"]
+  security_groups     = ["${openstack_compute_secgroup_v2.secgroup_2.name}","${openstack_compute_secgroup_v2.secgroup_5.name}"]
   user_data           = var.cloudconfig_web
   availability_zone   = "sto3"
 
